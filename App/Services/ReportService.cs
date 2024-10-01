@@ -1,29 +1,22 @@
 ﻿using App.DataTransferObject;
 using App.Models;
+using App.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Services
 {
     public class ReportService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IReportRepository _repository;
 
-        public ReportService(ApplicationDbContext context)
+        public ReportService(IReportRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        public async Task<IEnumerable<ReportDto>> GetReport()
+        public async Task<IEnumerable<ReportDto>> GetReportAsync()
         {
-            var report = await _context.Copies.Include(c => c.Book).Include(c => c.BookStatus)
-                .Select(c => new ReportDto
-                {
-                    BookTitle = c.Book.Title,
-                    CopyId = c.Id,
-                    Status = c.BookStatus.Status
-                }).ToListAsync();
-
-            return report;
+            return await _repository.GetReportAsync();
         }
     }
 }

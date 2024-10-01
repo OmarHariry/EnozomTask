@@ -1,4 +1,5 @@
 using App.Models;
+using App.Repositories;
 using App.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<ReportService>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

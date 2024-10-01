@@ -20,7 +20,7 @@ namespace App.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ReportDto>>> GetBookWithCopies()
         {
-            var report = await _service.GetReport();
+            var report = await _service.GetReportAsync();
             return Ok(report);
         }
     }

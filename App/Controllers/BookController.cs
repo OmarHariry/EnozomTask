@@ -19,7 +19,7 @@ namespace App.Controllers
         [HttpPost("/borrow/{copyId}/{studentId}")]
         public async Task<IActionResult> BorrowBook(int copyId, int studentId)
         {
-            bool isBorrowed = await _service.BorrowBook(copyId, studentId);
+            bool isBorrowed = await _service.BorrowBookAsync(copyId, studentId);
             if (isBorrowed)
                 return Ok("Book Borrowed Successfully.");
             return BadRequest("Book Borrow Failed.");
@@ -28,7 +28,7 @@ namespace App.Controllers
         [HttpPut("/return")]
         public async Task<IActionResult> ReturnBook([FromBody] ReturnBookDto returnBookDto)
         {
-            bool isReturned = await _service.ReturnBook(returnBookDto);
+            bool isReturned = await _service.ReturnBookAsync(returnBookDto);
             if (isReturned)
                 return Ok("Book Returned Successfully.");
             return BadRequest("Book Return Failed.");
