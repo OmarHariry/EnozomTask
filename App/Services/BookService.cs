@@ -15,28 +15,28 @@ namespace App.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> BorrowBookAsync(int copyId, int studentId)
+        public async Task<bool> BorrowBookAsync(BorrowBookDto borrowBookDto)
         {
             await _unitOfWork.BeginTranscationAsync();
             try
             {
-                var copy = await _unitOfWork.Copies.GetById(copyId);
+                var copy = await _unitOfWork.Copies.GetById(borrowBookDto.CopyId);
                 if (copy == null)
-                    throw new Exception("Borrowing record not found.");
+                    return false;
 
 
                 if (copy.StatusId != 1)
-                    throw new Exception("Copy not found.");
+                    return false;
 
                 // change its status to Borrowed
                 copy.StatusId = 2;
                 // set borrowing date, expected return date
                 BorrowingRecord br = new BorrowingRecord
                 {
-                    CopyId = copyId,
-                    StudentId = studentId,
-                    BorrowDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                    ExpectedReturnDate = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(3),
+                    CopyId = borrowBookDto.CopyId,
+                    StudentId = borrowBookDto.StudentId,
+                    BorrowDate = borrowBookDto.BorrowDate,
+                    ExpectedReturnDate = borrowBookDto.ExpectedReturnDate,
                     StatusId = 2
                 };
 
@@ -75,7 +75,7 @@ namespace App.Services
                 record.Copy.StatusId = returnBookDto.StatusId;
 
                 // record the actual return date
-                record.ActualReturnDate = DateOnly.FromDateTime(DateTime.UtcNow);
+                record.ActualReturnDate = returnBookDto.ActualReturnDate;
 
                 await _unitOfWork.CompleteAsync();
                 await _unitOfWork.CommitAsync();

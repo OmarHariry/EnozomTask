@@ -8,7 +8,7 @@ namespace App.Controllers
 {
 
     [ApiController]
-    [Route("report")]
+    [Route("/api/report")]
     public class ReportController : ControllerBase
     {
         private readonly ReportService _service;

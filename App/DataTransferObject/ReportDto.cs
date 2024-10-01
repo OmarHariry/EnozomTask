@@ -5,5 +5,6 @@
         public string BookTitle { get; set; }
         public int CopyId { get; set; }
         public string Status { get; set; }
+        public int RecordId { get; set; }
     }
 }

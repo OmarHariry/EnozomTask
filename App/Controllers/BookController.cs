@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace App.Controllers
 {
     [ApiController]
-    [Route("api/book")]
+    [Route("/api/book")]
     public class BookController : ControllerBase
     {
         private readonly BookService _service;
@@ -16,10 +16,10 @@ namespace App.Controllers
         {
             _service = service;
         }
-        [HttpPost("/borrow/{copyId}/{studentId}")]
-        public async Task<IActionResult> BorrowBook(int copyId, int studentId)
+        [HttpPost("/borrow")]
+        public async Task<IActionResult> BorrowBook([FromBody] BorrowBookDto borrowBookDto)
         {
-            bool isBorrowed = await _service.BorrowBookAsync(copyId, studentId);
+            bool isBorrowed = await _service.BorrowBookAsync(borrowBookDto);
             if (isBorrowed)
                 return Ok("Book Borrowed Successfully.");
             return BadRequest("Book Borrow Failed.");

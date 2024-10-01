@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace App.Models
 {
@@ -19,7 +21,8 @@ namespace App.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+                optionsBuilder.UseMySql(_configuration.GetConnectionString("EnozomConnection"),
+                     new MySqlServerVersion(new Version(9, 0, 1)));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -81,7 +84,6 @@ namespace App.Models
                     new Copy { Id = 1, BookId = 1, StatusId = 1 },
                     new Copy { Id = 2, BookId = 2, StatusId = 1 },
                     new Copy { Id = 3, BookId = 1, StatusId = 1 }
-
                 );
 
         }
