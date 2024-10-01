@@ -5,7 +5,8 @@
         public int Id { get; set; }
         public int BookId { get; set; }
         public Book Book { get; set; } // navigation
-        public string Status { get; set; }
         public IEnumerable<BorrowingRecord> BorrowingRecords { get; set; }
+        public int StatusId { get; set; }
+        public BookStatus BookStatus { get; set; }
     }
 }

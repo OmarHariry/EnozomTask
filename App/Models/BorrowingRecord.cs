@@ -9,6 +9,8 @@
         public Student Student { get; set; }
         public DateOnly BorrowDate { get; set; }
         public DateOnly ExpectedReturnDate { get; set; }
-        public DateTime ActualReturnDate { get; set; }
+        public DateOnly? ActualReturnDate { get; set; } 
+        public int StatusId { get; set; }
+        public BookStatus BookStatus { get; set; }
     }
 }
