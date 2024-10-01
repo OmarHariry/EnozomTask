@@ -1,5 +1,6 @@
 ﻿using App.DataTransferObject;
 using App.Models;
+using App.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,23 +11,16 @@ namespace App.Controllers
     [Route("report")]
     public class ReportController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ReportService _service;
 
-        public ReportController(ApplicationDbContext context)
+        public ReportController(ReportService service)
         {
-            _context = context;
+            _service = service;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ReportDto>>> GetBookWithCopies()
         {
-            var report = await _context.Copies.Include(c => c.Book).Include(c => c.BookStatus)
-                .Select(c => new ReportDto
-            {
-                BookTitle = c.Book.Title,
-                CopyId = c.Id,
-                Status = c.BookStatus.Status
-            }).ToListAsync();
-
+            var report = await _service.GetReport();
             return Ok(report);
         }
     }
