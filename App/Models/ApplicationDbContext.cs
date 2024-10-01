@@ -6,10 +6,10 @@ namespace App.Models
     {
         private readonly IConfiguration _configuration;
 
-        //public DbSet<Book> Books { get; set; }
-        //public DbSet<Copy> Copies { get; set; }
-        //public DbSet<BorrowingRecord> BorrowingRecords { get; set; }
-        //public DbSet<Student> Students { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Copy> Copies { get; set; }
+        public DbSet<BorrowingRecord> BorrowingRecords { get; set; }
+        public DbSet<Student> Students { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration) : base(options)
         {
             _configuration = configuration;
@@ -23,20 +23,20 @@ namespace App.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Book - Copy relationship(One - to - Many)
+            // Book - Copy relationship(One - to - Many)
             modelBuilder.Entity<Book>()
                 .HasMany(b => b.Copies)
                 .WithOne(b => b.Book)
                 .HasForeignKey(c => c.BookId);
 
-            // Student-BorrowingRecord relationship (One-to-Many)
+            // Student - BorrowingRecord relationship (One-to-Many)
             modelBuilder.Entity<Student>()
                 .HasMany(s => s.BorrowingRecords)
                 .WithOne(br => br.Student)
                 .HasForeignKey(br => br.StudentId);
 
 
-            // Copy-BorrowingRecord relationship (One-to-Many)
+            // Copy - BorrowingRecord relationship (One-to-Many)
             modelBuilder.Entity<Copy>()
                 .HasMany(c => c.BorrowingRecords)
                 .WithOne(br => br.Copy)
